@@ -1,0 +1,88 @@
+{
+	"width": 1280,
+	"height": 720,
+	"fps": 30,
+	"main": "./script/_bootstrap.js",
+	"assets": {
+		"projection_manager": {
+			"type": "script",
+			"path": "script/behaviors/projection_manager.js",
+			"global": true
+		},
+		"resource_manager": {
+			"type": "script",
+			"path": "script/behaviors/resource_manager.js",
+			"global": true
+		},
+		"tooltip_manager": {
+			"type": "script",
+			"path": "script/behaviors/tooltip_manager.js",
+			"global": true
+		},
+		"main": {
+			"type": "script",
+			"path": "script/main.js",
+			"global": true
+		},
+		"parameterObject": {
+			"type": "script",
+			"path": "script/parameterObject.js",
+			"global": true
+		},
+		"game_scene": {
+			"type": "script",
+			"path": "script/scenes/game_scene.js",
+			"global": true
+		},
+		"assets": {
+			"type": "script",
+			"path": "script/utils/assets.js",
+			"global": true
+		},
+		"chain": {
+			"type": "script",
+			"path": "script/utils/chain.js",
+			"global": true
+		},
+		"chain_builder": {
+			"type": "script",
+			"path": "script/utils/chain_builder.js",
+			"global": true
+		},
+		"3d_view": {
+			"type": "script",
+			"path": "script/views/3d_view.js",
+			"global": true
+		},
+		"deployable_view": {
+			"type": "script",
+			"path": "script/views/deployable_view.js",
+			"global": true
+		},
+		"stair_view": {
+			"type": "script",
+			"path": "script/views/stair_view.js",
+			"global": true
+		},
+		"tooltip_stair_view": {
+			"type": "script",
+			"path": "script/views/tooltip_stair_view.js",
+			"global": true
+		},
+		"_bootstrap": {
+			"type": "script",
+			"path": "script/_bootstrap.js",
+			"global": true
+		}
+	},
+	"moduleMainScripts": {},
+	"environment": {
+		"sandbox-runtime": "3",
+		"niconico": {
+			"supportedModes": [
+				"ranking"
+			]
+		}
+	},
+	"globalScripts": []
+}
