@@ -13,16 +13,20 @@ describe('projectionManager', () => {
   let targetLayer: g.E
 
   beforeEach(() => {
-    targetLayer = new g.E({ scene })
+    targetLayer = new g.E({
+      scene,
+      width: 800,
+      height: 100
+    })
     opts = {
       scene,
       targetLayer,
       logical: {
-        logicalX: 1,
-        logicalY: 1,
+        logicalX: 4,
+        logicalY: 2,
         logicalZ: 1
       },
-      angle: 30
+      angle: 0
     }
   })
 
@@ -95,5 +99,94 @@ describe('projectionManager', () => {
       logicalZ: 0
     }
     expect(inst.reflect(inst.project(original))).toEqual(original)
+  })
+
+  it('angle が 0 のとき, managerのlogicalとtargetLayerに合わせて拡縮', () => {
+    const inst = new ProjectionManager({
+      ...opts,
+      angle: 0
+    })
+    const origin = inst.project({
+      logicalX: 0,
+      logicalY: 0,
+      logicalZ: 0
+    })
+    expect(origin.x).toBeCloseTo(0)
+    expect(origin.y).toBeCloseTo(0)
+
+    const center = inst.project({
+      logicalX: 2,
+      logicalY: 1,
+      logicalZ: 0
+    })
+    expect(center.x).toBeCloseTo(400)
+    expect(center.y).toBeCloseTo(50)
+
+    const boundary = inst.project({
+      logicalX: 4,
+      logicalY: 2,
+      logicalZ: 0
+    })
+    expect(boundary.x).toBeCloseTo(800)
+    expect(boundary.y).toBeCloseTo(100)
+
+    const ignoreZ = inst.project({
+      logicalX: 2,
+      logicalY: 1,
+      logicalZ: 1
+    })
+    expect(ignoreZ.x).toBeCloseTo(400)
+    expect(ignoreZ.y).toBeCloseTo(50)
+  })
+
+  it('angle が 90 のとき, z だけが y として 反映', () => {
+    const inst = new ProjectionManager({
+      ...opts,
+      angle: -Math.PI / 2
+    })
+    const origin = inst.project({
+      logicalX: 0,
+      logicalY: 0,
+      logicalZ: 0
+    })
+    expect(origin.x).toBeCloseTo(0)
+    expect(origin.y).toBeCloseTo(50)
+
+    const boundary = inst.project({
+      logicalX: 4,
+      logicalY: 2,
+      logicalZ: 0
+    })
+    expect(boundary.x).toBeCloseTo(800)
+    expect(boundary.y).toBeCloseTo(50)
+
+    const top = inst.project({
+      logicalX: 4,
+      logicalY: 2,
+      logicalZ: 2
+    })
+    expect(top.x).toBeCloseTo(800)
+    expect(top.y).toBeCloseTo(-150)
+  })
+
+  it('angle更新で再描画', () => {
+    const inst = new ProjectionManager(opts)
+    expect(inst.angle).toBeDefined()
+
+    inst.add(new Simple3D({
+      scene,
+      projectionManager: inst,
+      logicalX: 0,
+      logicalY: 0,
+      logicalZ: 0
+    }))
+
+    let count = 0
+    inst.onMove.add(() => {
+      count++
+    })
+
+    inst.angle = Math.PI
+    expect(count).toBe(1)
   })
 })

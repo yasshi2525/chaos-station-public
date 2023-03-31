@@ -15,7 +15,13 @@ export class ResourceManager {
     this.scene = opts.scene
     this.platformLayer = new g.E({
       scene: this.scene,
-      parent: this.scene
+      parent: this.scene,
+      x: g.game.width / 2,
+      y: g.game.height / 2,
+      width: g.game.width / 2,
+      height: g.game.height / 4,
+      anchorX: 0.5,
+      anchorY: 0.5
     })
     this.tooltipLayer = new g.E({
       scene: this.scene,
@@ -24,7 +30,7 @@ export class ResourceManager {
     this.platformResources = new ProjectionManager({
       scene: this.scene,
       targetLayer: this.platformLayer,
-      angle: 30,
+      angle: Math.PI * 2 / 3,
       logical: {
         logicalX: 1,
         logicalY: 1,

@@ -27,5 +27,10 @@ export class StairView extends ThreeDimensionalView {
       height: opts.height - 2,
       cssColor: '#8b0000'
     }))
+    this.onRotated.add(angle => {
+      this.icon.height = Math.cos(angle) * opts.height
+      this.icon.children![0].height = Math.cos(angle) * opts.height
+      this.icon.modified()
+    })
   }
 }

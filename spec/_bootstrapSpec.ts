@@ -23,7 +23,10 @@ describe('_bootstrap', () => {
     context.step()
     g.game.raiseEvent(new g.MessageEvent({
       type: 'start',
-      parameters: { randomSeed: 2 }
+      parameters: {
+        randomSeed: 2,
+        debug: true
+      }
     }))
     context.step()
     context.step()

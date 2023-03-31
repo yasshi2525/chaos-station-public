@@ -80,11 +80,14 @@ export abstract class DeployableView extends g.E {
     })
     this._subject.onPointUp.add(e => {
       if (pid === e.pointerId) {
-        const ev = this._subject.localToGlobal(
-          {
-            x: this._subject.width / 2,
-            y: this._subject.height / 2
-          })
+        const ev = this.resourceManager
+          .getPlatformResources()
+          .getTargetLayer()
+          .globalToLocal(this._subject.localToGlobal(
+            {
+              x: this._subject.width / 2,
+              y: this._subject.height / 2
+            }))
         this._subject.moveTo({
           x: 0,
           y: 0

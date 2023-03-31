@@ -73,8 +73,8 @@ describe('deployable_view', () => {
     context.step()
     expect(count).toBe(1)
     expect(inst.lastEvent).toEqual({
-      x: 10,
-      y: 10
+      x: -310,
+      y: -260
     })
   })
 

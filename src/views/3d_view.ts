@@ -6,6 +6,7 @@ export type ThreeDimensionalViewOption = {
 } & LogicalOffset
 
 export abstract class ThreeDimensionalView extends g.E {
+  readonly onRotated: g.Trigger<number>
   private readonly projectionManager: ProjectionManager
   private readonly logical: LogicalOffset
 
@@ -14,12 +15,23 @@ export abstract class ThreeDimensionalView extends g.E {
       ...opts,
       ...opts.projectionManager.project(opts)
     })
+    this.onRotated = new g.Trigger()
     this.logical = {
       logicalX: opts.logicalX,
       logicalY: opts.logicalY,
       logicalZ: opts.logicalZ
     }
     this.projectionManager = opts.projectionManager
+    this.onRotated.add(() => {
+      const {
+        x,
+        y
+      } = this.projectionManager.project(this.logical)
+      this.x = x
+      this.y = y
+      this.modified()
+      this.projectionManager.onMove.fire(this)
+    })
   }
 
   set logicalOffset (v: LogicalOffset) {
