@@ -1,9 +1,11 @@
 import { ResourceManager } from '../behaviors/resource_manager'
 import { TooltipManager } from '../behaviors/tooltip_manager'
 import { TooltipStairView } from '../views/tooltip_stair_view'
+import { DemoManager } from '../behaviors/demo_manager'
 
 type GameSceneOption = {
-  game: g.Game
+  game: g.Game,
+  debug: boolean
 }
 
 export class GameScene extends g.Scene {
@@ -16,6 +18,15 @@ export class GameScene extends g.Scene {
       const resourceManager = new ResourceManager({
         scene: this
       })
+      let demoManager: DemoManager | undefined
+      if (opts.debug) {
+        // eslint-disable-next-line prefer-const
+        demoManager = new DemoManager({
+          scene: this,
+          resourceManager,
+          projectionManager: resourceManager.getPlatformResources()
+        })
+      }
       const tooltipManager = new TooltipManager({
         scene: this,
         targetLayer: resourceManager.getTooltipLayer()
@@ -27,6 +38,8 @@ export class GameScene extends g.Scene {
         x: 200,
         y: 200
       }))
+
+      demoManager?.start()
     })
   }
 }

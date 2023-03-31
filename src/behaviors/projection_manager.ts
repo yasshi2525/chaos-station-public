@@ -18,14 +18,14 @@ export class ProjectionManager {
   private readonly scene: g.Scene
   private readonly targetLayer: g.E
   private readonly logical: LogicalOffset
-  private readonly angle: number
+  private _angle: number
   private readonly subjects: ThreeDimensionalView[]
 
   constructor (opts: ProjectionManagerOption) {
     this.scene = opts.scene
     this.targetLayer = opts.targetLayer
     this.logical = opts.logical
-    this.angle = opts.angle
+    this._angle = opts.angle
     this.subjects = []
     this.onMove = new g.Trigger()
     this.onMove.add(v => {
@@ -39,25 +39,40 @@ export class ProjectionManager {
     this.insert(view)
   }
 
-  project (view: LogicalOffset) {
-    // TODO: impl
+  project (point3D: LogicalOffset) {
     return {
-      x: view.logicalX,
-      y: view.logicalY
+      x: point3D.logicalX / this.logical.logicalX * this.targetLayer.width,
+      y: ((point3D.logicalY / this.logical.logicalY - 0.5) * Math.cos(this._angle) +
+        point3D.logicalZ / this.logical.logicalZ * Math.sin(this._angle) + 0.5) * this.targetLayer.height
     }
   }
 
   reflect (view: g.CommonOffset) {
-    // TODO: impl
+    // z値は0とする
+    const y0 = (view.y / this.targetLayer.height - 0.5)
     return {
-      logicalX: view.x,
-      logicalY: view.y,
+      logicalX: view.x / this.targetLayer.width * this.logical.logicalX,
+      logicalY: (y0 * Math.cos(this._angle) + y0 * Math.sin(this._angle) * Math.tan(this._angle)) *
+        this.logical.logicalY + this.logical.logicalY / 2,
       logicalZ: 0
     }
   }
 
   getSubjects () {
     return this.subjects
+  }
+
+  getTargetLayer () {
+    return this.targetLayer
+  }
+
+  get angle () {
+    return this._angle
+  }
+
+  set angle (theta: number) {
+    this._angle = theta
+    this.subjects.forEach(s => s.onRotated.fire(this._angle))
   }
 
   private insert (target: ThreeDimensionalView) {

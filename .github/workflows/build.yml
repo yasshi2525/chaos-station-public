@@ -37,6 +37,7 @@ jobs:
           files: lcov.info
           directory: coverage
         if: ${{ env.CODECOV_TOKEN != '' }}
+      - run: npm install
       - run: npm run export-html
       - run: unzip game.zip
       - run: echo "VERSION=$(cat package.json | jq '.version' | tr -d '"')" >> $GITHUB_ENV
