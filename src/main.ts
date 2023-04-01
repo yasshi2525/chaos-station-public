@@ -6,6 +6,9 @@ export function main (param: GameMainParameterObject): void {
   g.game.vars.originalParameter = param
   g.game.pushScene(new GameScene({
     game: g.game,
-    debug: param.sessionParameter.debug ?? false
+    debug: param.sessionParameter.debug ?? {
+      grid: false,
+      rotate: false
+    }
   }))
 }

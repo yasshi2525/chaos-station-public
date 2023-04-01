@@ -1,19 +1,22 @@
 import { ResourceManager } from '../../src/behaviors/resource_manager'
 import { ProjectionManager } from '../../src/behaviors/projection_manager'
-import { StairView } from '../../src/views/stair_view'
+import { PassengerView } from '../../src/views/passenger_view'
+import { PassengerManager } from '../../src/behaviors/passenger_manager'
 
-describe('stair_view', () => {
+describe('passenger_view', () => {
   let resourceManager: ResourceManager
   let projectionManager: ProjectionManager
+  let passengerManager: PassengerManager
   beforeEach(() => {
     resourceManager = new ResourceManager({
       scene,
       angle: 0
     })
     projectionManager = resourceManager.getPlatformResources()
+    passengerManager = resourceManager.getPassengerResources()
   })
   it('onRotated', () => {
-    const inst = new StairView({
+    const inst = new PassengerView({
       scene,
       projectionManager,
       logicalX: 0,
@@ -24,7 +27,7 @@ describe('stair_view', () => {
     inst.onRotated.add(() => {
       cnt++
     })
-    resourceManager.addResourceOnPlatform(inst)
+    passengerManager.addSubject(inst, passengerManager.getStairs()[0])
     resourceManager.angle = Math.PI / 4
     expect(cnt).toBe(1)
   })

@@ -7,7 +7,7 @@ export type ThreeDimensionalViewOption = {
 
 export abstract class ThreeDimensionalView extends g.E {
   readonly onRotated: g.Trigger<number>
-  private readonly projectionManager: ProjectionManager
+  protected readonly projectionManager: ProjectionManager
   private readonly logical: LogicalOffset
 
   protected constructor (opts: ThreeDimensionalViewOption) {

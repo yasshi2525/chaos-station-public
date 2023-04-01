@@ -40,9 +40,10 @@ export class ProjectionManager {
   }
 
   project (point3D: LogicalOffset) {
+    // 数学的な z軸 とは反対向きが正
     return {
       x: point3D.logicalX / this.logical.logicalX * this.targetLayer.width,
-      y: ((point3D.logicalY / this.logical.logicalY - 0.5) * Math.cos(this._angle) +
+      y: ((point3D.logicalY / this.logical.logicalY - 0.5) * Math.cos(this._angle) -
         point3D.logicalZ / this.logical.logicalZ * Math.sin(this._angle) + 0.5) * this.targetLayer.height
     }
   }
@@ -73,6 +74,10 @@ export class ProjectionManager {
   set angle (theta: number) {
     this._angle = theta
     this.subjects.forEach(s => s.onRotated.fire(this._angle))
+  }
+
+  get size () {
+    return this.logical
   }
 
   private insert (target: ThreeDimensionalView) {

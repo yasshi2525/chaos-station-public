@@ -28,7 +28,10 @@ describe('tooltip_manager', () => {
   let tooltipManager: TooltipManager
 
   beforeEach(() => {
-    resourceManager = new ResourceManager({ scene })
+    resourceManager = new ResourceManager({
+      scene,
+      angle: 0
+    })
     tooltipManager = new TooltipManager({
       scene,
       targetLayer: resourceManager.getTooltipLayer()

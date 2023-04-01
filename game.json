@@ -83,6 +83,31 @@
 			"type": "script",
 			"path": "script/_bootstrap.js",
 			"global": true
+		},
+		"platform_view": {
+			"type": "script",
+			"path": "script/views/platform_view.js",
+			"global": true
+		},
+		"passenger_manager": {
+			"type": "script",
+			"path": "script/behaviors/passenger_manager.js",
+			"global": true
+		},
+		"passenger_view": {
+			"type": "script",
+			"path": "script/views/passenger_view.js",
+			"global": true
+		},
+		"train_manager": {
+			"type": "script",
+			"path": "script/behaviors/train_manager.js",
+			"global": true
+		},
+		"train_view": {
+			"type": "script",
+			"path": "script/views/train_view.js",
+			"global": true
 		}
 	},
 	"moduleMainScripts": {},

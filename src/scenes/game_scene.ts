@@ -2,10 +2,11 @@ import { ResourceManager } from '../behaviors/resource_manager'
 import { TooltipManager } from '../behaviors/tooltip_manager'
 import { TooltipStairView } from '../views/tooltip_stair_view'
 import { DemoManager } from '../behaviors/demo_manager'
+import { DebugOption } from '../parameterObject'
 
 type GameSceneOption = {
   game: g.Game,
-  debug: boolean
+  debug: DebugOption
 }
 
 export class GameScene extends g.Scene {
@@ -16,15 +17,17 @@ export class GameScene extends g.Scene {
     })
     this.onLoad.add(() => {
       const resourceManager = new ResourceManager({
-        scene: this
+        scene: this,
+        angle: Math.PI / 4
       })
       let demoManager: DemoManager | undefined
-      if (opts.debug) {
+      if (opts.debug.rotate) {
         // eslint-disable-next-line prefer-const
         demoManager = new DemoManager({
           scene: this,
           resourceManager,
-          projectionManager: resourceManager.getPlatformResources()
+          projectionManager: resourceManager.getPlatformResources(),
+          grid: opts.debug.grid
         })
       }
       const tooltipManager = new TooltipManager({
@@ -38,8 +41,12 @@ export class GameScene extends g.Scene {
         x: 200,
         y: 200
       }))
+      const passengerManager = resourceManager.getPassengerResources()
+      const trainManager = resourceManager.getTrainResources()
 
       demoManager?.start()
+      passengerManager.start()
+      trainManager.start()
     })
   }
 }

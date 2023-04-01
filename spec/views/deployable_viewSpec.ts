@@ -29,7 +29,10 @@ describe('deployable_view', () => {
   let inst: SimpleDeployable
 
   beforeEach(() => {
-    resourceManager = new ResourceManager({ scene })
+    resourceManager = new ResourceManager({
+      scene,
+      angle: 0
+    })
     tooltipManager = new TooltipManager({
       scene,
       targetLayer: resourceManager.getTooltipLayer()

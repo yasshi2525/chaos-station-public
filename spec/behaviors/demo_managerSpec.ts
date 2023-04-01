@@ -7,16 +7,21 @@ describe('demo_manager', () => {
   let projectionManager: ProjectionManager
 
   beforeEach(() => {
-    resourceManager = new ResourceManager({ scene })
+    resourceManager = new ResourceManager({
+      scene,
+      angle: 0
+    })
     projectionManager = resourceManager.getPlatformResources()
   })
 
-  it('start', () => {
+  it.each([false, true])('run', async (grid) => {
     const inst = new DemoManager({
       scene,
       resourceManager,
-      projectionManager
+      projectionManager,
+      grid
     })
     expect(() => inst.start()).not.toThrow()
+    await context.advance(5000)
   })
 })

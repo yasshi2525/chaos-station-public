@@ -13,11 +13,9 @@ export class TooltipStairView extends DeployableView {
 
   protected handleEvent (ev: g.CommonOffset) {
     const projectionManager = this.resourceManager.getPlatformResources()
-    this.resourceManager.addResourceOnPlatform(new StairView({
+    this.resourceManager.addStair(new StairView({
       scene: this.scene,
       projectionManager,
-      width: this.width,
-      height: this.height,
       ...projectionManager.reflect(ev)
     }))
   }
