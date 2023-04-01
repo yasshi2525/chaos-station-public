@@ -47,7 +47,7 @@ export class DemoManager {
 
     let cnt = 0
     this.scene.onUpdate.add(() => {
-      this.projectionManager.angle = cnt / g.game.fps / 5
+      this.resourceManager.angle = cnt / g.game.fps / 5
       cnt++
     })
   }

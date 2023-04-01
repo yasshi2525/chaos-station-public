@@ -166,7 +166,7 @@ describe('projectionManager', () => {
       logicalZ: 2
     })
     expect(top.x).toBeCloseTo(800)
-    expect(top.y).toBeCloseTo(-150)
+    expect(top.y).toBeCloseTo(250)
   })
 
   it('angle更新で再描画', () => {

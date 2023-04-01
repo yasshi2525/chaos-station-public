@@ -18,17 +18,33 @@ class Simple3D extends ThreeDimensionalView {
 
 describe('resource_manager', () => {
   it('create', () => {
-    const inst = new ResourceManager({ scene })
+    const inst = new ResourceManager({
+      scene,
+      angle: 0
+    })
     expect(inst.getTooltipLayer()).toBeDefined()
+    expect(inst.getGroundResources()).toBeDefined()
     expect(inst.getPlatformResources()).toBeDefined()
   })
   it('add', () => {
-    const inst = new ResourceManager({ scene })
+    const inst = new ResourceManager({
+      scene,
+      angle: 0
+    })
     const child = new Simple3D({
       scene,
       projectionManager: inst.getPlatformResources()
     })
     inst.addResourceOnPlatform(child)
-    expect(inst.getPlatformResources().getSubjects()).toEqual([child])
+    expect(inst.getPlatformResources().getSubjects()).toHaveLength(2)
+    expect(inst.getPlatformResources().getSubjects()[0]).toEqual(child)
+  })
+  it('angle', () => {
+    const inst = new ResourceManager({
+      scene,
+      angle: 0
+    })
+    inst.angle = 0.5
+    expect(inst.angle).toBe(0.5)
   })
 })
