@@ -25,7 +25,10 @@ describe('tooltip_stair_view', () => {
   let tooltipManager: TooltipManager
 
   beforeEach(() => {
-    resourceManager = new ResourceManager({ scene })
+    resourceManager = new ResourceManager({
+      scene,
+      angle: 0
+    })
     tooltipManager = new TooltipManager({
       scene,
       targetLayer: resourceManager.getTooltipLayer()
@@ -42,6 +45,6 @@ describe('tooltip_stair_view', () => {
       x: 10,
       y: 10
     })
-    expect(resourceManager.getPlatformResources().getSubjects()).toHaveLength(1)
+    expect(resourceManager.getPlatformResources().getSubjects()).toHaveLength(2)
   })
 })

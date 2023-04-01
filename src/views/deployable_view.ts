@@ -10,8 +10,8 @@ export type DeployableViewOption = {
   resourceManager: ResourceManager
 }
 
-const width = 150
-const height = 100
+const width = 125
+const height = 75
 const disabledAlpha = 0.5
 const defAlpha = 0.75
 const pressedAlpha = 1.0

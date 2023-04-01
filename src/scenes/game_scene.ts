@@ -16,7 +16,8 @@ export class GameScene extends g.Scene {
     })
     this.onLoad.add(() => {
       const resourceManager = new ResourceManager({
-        scene: this
+        scene: this,
+        angle: Math.PI / 4
       })
       let demoManager: DemoManager | undefined
       if (opts.debug) {
@@ -38,8 +39,10 @@ export class GameScene extends g.Scene {
         x: 200,
         y: 200
       }))
+      const passengerManager = resourceManager.getPassengerResources()
 
       demoManager?.start()
+      passengerManager.start()
     })
   }
 }

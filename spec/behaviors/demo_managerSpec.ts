@@ -7,7 +7,10 @@ describe('demo_manager', () => {
   let projectionManager: ProjectionManager
 
   beforeEach(() => {
-    resourceManager = new ResourceManager({ scene })
+    resourceManager = new ResourceManager({
+      scene,
+      angle: 0
+    })
     projectionManager = resourceManager.getPlatformResources()
   })
 
