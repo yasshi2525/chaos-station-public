@@ -26,7 +26,6 @@ export class GameScene extends g.Scene {
         demoManager = new DemoManager({
           scene: this,
           resourceManager,
-          projectionManager: resourceManager.getPlatformResources(),
           grid: opts.debug.grid
         })
       }
@@ -41,12 +40,8 @@ export class GameScene extends g.Scene {
         x: 200,
         y: 200
       }))
-      const passengerManager = resourceManager.getPassengerResources()
-      const trainManager = resourceManager.getTrainResources()
-
       demoManager?.start()
-      passengerManager.start()
-      trainManager.start()
+      resourceManager.start()
     })
   }
 }
