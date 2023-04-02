@@ -1,10 +1,14 @@
-import { ProjectionManager } from './projection_manager'
+import { LogicalOffset, ProjectionManager } from './projection_manager'
 import { ThreeDimensionalView } from '../views/3d_view'
 import { PlatformView } from '../views/platform_view'
 import { StairView } from '../views/stair_view'
-import { PassengerManager } from './passenger_manager'
 import { TrainView } from '../views/train_view'
-import { TrainManager } from './train_manager'
+import { TrainBehavior } from './train_behavior'
+import { SpawnBehavior } from './spawn_behavior'
+import { StairBehavior } from './stair_behavior'
+import { PassengerView } from '../views/passenger_view'
+import { RiderBehavior } from './rider_behavior'
+import { BehaviorManager } from './behavior_manager'
 
 type ResourceManagerOption = {
   scene: g.Scene,
@@ -15,11 +19,15 @@ export class ResourceManager {
   private readonly scene: g.Scene
   private readonly groundLayer: g.E
   private readonly platformLayer: g.E
-  private readonly platform: PlatformView
   private readonly groundResources: ProjectionManager
   private readonly platformResources: ProjectionManager
-  private readonly passengerResources: PassengerManager
-  private readonly trainResources: TrainManager
+  private readonly platforms: PlatformView[]
+
+  private readonly behaviors: BehaviorManager[]
+  private readonly spawnBehavior: SpawnBehavior
+  private readonly stairBehavior: StairBehavior
+  private readonly trainBehavior: TrainBehavior
+  private readonly riderBehavior: RiderBehavior
   private readonly tooltipLayer: g.E
   private _angle: number
 
@@ -42,6 +50,7 @@ export class ResourceManager {
       scene: this.scene,
       parent: this.scene
     })
+    this.platforms = []
 
     const resourceOpts = {
       scene: this.scene,
@@ -60,32 +69,24 @@ export class ResourceManager {
       targetLayer: this.platformLayer,
       ...resourceOpts
     })
-    this.passengerResources = new PassengerManager({
-      scene: this.scene,
-      resourceManager: this
-    })
-    this.trainResources = new TrainManager({
-      scene: this.scene,
-      resourceManager: this
-    })
 
-    this.platform = new PlatformView({
+    this.behaviors = []
+    const behaviorOpts = {
       scene: this.scene,
-      baseWidth: this.groundLayer.width,
-      baseHeight: this.groundLayer.height,
-      projectionManager: this.groundResources,
-      logicalX: 0.5,
-      logicalY: 0.5,
-      logicalZ: 0
-    })
-    this.addResourceOnGround(this.platform)
-    this.addStair(new StairView({
-      scene: this.scene,
-      projectionManager: this.platformResources,
-      logicalX: 0.75,
-      logicalY: 0.35,
-      logicalZ: 0
-    }))
+      resourceManager: this
+    }
+
+    this.trainBehavior = new TrainBehavior(behaviorOpts)
+    this.behaviors.push(this.trainBehavior)
+
+    this.spawnBehavior = new SpawnBehavior(behaviorOpts)
+    this.behaviors.push(this.spawnBehavior)
+
+    this.stairBehavior = new StairBehavior(behaviorOpts)
+    this.behaviors.push(this.stairBehavior)
+
+    this.riderBehavior = new RiderBehavior(behaviorOpts)
+    this.behaviors.push(this.riderBehavior)
   }
 
   get angle () {
@@ -106,14 +107,26 @@ export class ResourceManager {
     this.platformResources.add(view)
   }
 
-  addStair (view: StairView) {
-    this.passengerResources.addSpawner(view)
+  addPlatform (view: PlatformView) {
+    this.platforms.push(view)
+    this.riderBehavior.addPlatform(view)
+    this.trainBehavior.addPlatform(view)
+    this.addResourceOnGround(view)
+  }
+
+  addStair (view: StairView, on: PlatformView) {
+    this.spawnBehavior.add(view)
+    this.stairBehavior.add(view, on)
+    this.riderBehavior.addStair(view, on)
     this.addResourceOnPlatform(view)
   }
 
-  addTrain (train: TrainView) {
-    this.trainResources.add(train)
-    this.addResourceOnGround(train)
+  addTrain (view: TrainView, destination: PlatformView) {
+    this.addResourceOnGround(view)
+  }
+
+  addPassenger (view: PassengerView) {
+    this.addResourceOnPlatform(view)
   }
 
   getGroundResources () {
@@ -124,19 +137,50 @@ export class ResourceManager {
     return this.platformResources
   }
 
-  getPassengerResources () {
-    return this.passengerResources
+  getTrainBehavior () {
+    return this.trainBehavior
   }
 
-  getTrainResources () {
-    return this.trainResources
+  getSpawnBehavior () {
+    return this.spawnBehavior
   }
 
-  getPlatform () {
-    return this.platform
+  getStairBehavior () {
+    return this.stairBehavior
+  }
+
+  getRiderBehavior () {
+    return this.riderBehavior
   }
 
   getTooltipLayer () {
     return this.tooltipLayer
+  }
+
+  start () {
+    this.behaviors.forEach(b => b.start())
+
+    const platform = new PlatformView({
+      scene: this.scene,
+      baseWidth: this.groundLayer.width,
+      baseHeight: this.groundLayer.height,
+      projectionManager: this.groundResources,
+      logicalX: 0.5,
+      logicalY: 0.5,
+      logicalZ: 0
+    })
+    this.addPlatform(platform)
+
+    this.addStair(new StairView({
+      scene: this.scene,
+      projectionManager: this.platformResources,
+      logicalX: 0.75,
+      logicalY: 0.35,
+      logicalZ: 0
+    }), platform)
+  }
+
+  findPlatformOn (loc: LogicalOffset) {
+    return this.platforms.find(p => p.contains(loc))
   }
 }

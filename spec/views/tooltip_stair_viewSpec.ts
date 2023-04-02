@@ -1,6 +1,8 @@
 import { TooltipStairView } from '../../src/views/tooltip_stair_view'
 import { ResourceManager } from '../../src/behaviors/resource_manager'
 import { TooltipManager } from '../../src/behaviors/tooltip_manager'
+import { PlatformView } from '../../src/views/platform_view'
+import { ProjectionManager } from '../../src/behaviors/projection_manager'
 
 class SimpleTooltipStairView extends TooltipStairView {
   constructor (opts: {
@@ -22,7 +24,9 @@ class SimpleTooltipStairView extends TooltipStairView {
 
 describe('tooltip_stair_view', () => {
   let resourceManager: ResourceManager
+  let projectionManager: ProjectionManager
   let tooltipManager: TooltipManager
+  let platform: PlatformView
 
   beforeEach(() => {
     resourceManager = new ResourceManager({
@@ -33,6 +37,17 @@ describe('tooltip_stair_view', () => {
       scene,
       targetLayer: resourceManager.getTooltipLayer()
     })
+    projectionManager = resourceManager.getGroundResources()
+    platform = new PlatformView({
+      scene,
+      projectionManager,
+      logicalX: 0,
+      logicalY: 0,
+      logicalZ: 0,
+      baseWidth: 500,
+      baseHeight: 500
+    })
+    resourceManager.addPlatform(platform)
   })
 
   it('create', () => {
@@ -45,6 +60,6 @@ describe('tooltip_stair_view', () => {
       x: 10,
       y: 10
     })
-    expect(resourceManager.getPlatformResources().getSubjects()).toHaveLength(2)
+    expect(resourceManager.getPlatformResources().getSubjects()).toHaveLength(1)
   })
 })
