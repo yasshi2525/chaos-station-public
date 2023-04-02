@@ -2,8 +2,6 @@ import { ThreeDimensionalView, ThreeDimensionalViewOption } from './3d_view'
 import { LogicalOffset } from '../behaviors/projection_manager'
 
 type TrainViewOption = ThreeDimensionalViewOption & {
-  baseWidth: number,
-  baseHeight: number,
   doors: number,
   destination: LogicalOffset
 }
@@ -37,14 +35,14 @@ export class TrainView extends ThreeDimensionalView {
       parent: this,
       anchorX: 0.5,
       anchorY: 0.5,
-      width: opts.baseWidth,
-      height: opts.baseHeight * Math.cos(this.projectionManager.angle),
+      width: this.baseWidth,
+      height: this.baseHeight * Math.cos(this.projectionManager.angle),
       cssColor: '#3cb371',
       opacity: 0.5
     })
 
     for (let i = 0; i < opts.doors; i++) {
-      const band = opts.baseWidth / opts.doors
+      const band = this.baseWidth / opts.doors
       const center = (i + 0.5) * band
       this.steps.push(new g.FilledRect({
         scene: this.scene,
@@ -67,7 +65,7 @@ export class TrainView extends ThreeDimensionalView {
     }
 
     this.onRotated.add(angle => {
-      this.body.height = Math.cos(angle) * opts.baseHeight
+      this.body.height = Math.cos(angle) * this.baseHeight
       this.body.children!.forEach(d => {
         d.height = Math.cos(angle) * doorHeight
         d.modified()

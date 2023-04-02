@@ -89,24 +89,39 @@
 			"path": "script/views/platform_view.js",
 			"global": true
 		},
-		"passenger_manager": {
-			"type": "script",
-			"path": "script/behaviors/passenger_manager.js",
-			"global": true
-		},
 		"passenger_view": {
 			"type": "script",
 			"path": "script/views/passenger_view.js",
 			"global": true
 		},
-		"train_manager": {
-			"type": "script",
-			"path": "script/behaviors/train_manager.js",
-			"global": true
-		},
 		"train_view": {
 			"type": "script",
 			"path": "script/views/train_view.js",
+			"global": true
+		},
+		"behavior_manager": {
+			"type": "script",
+			"path": "script/behaviors/behavior_manager.js",
+			"global": true
+		},
+		"rider_behavior": {
+			"type": "script",
+			"path": "script/behaviors/rider_behavior.js",
+			"global": true
+		},
+		"spawn_behavior": {
+			"type": "script",
+			"path": "script/behaviors/spawn_behavior.js",
+			"global": true
+		},
+		"stair_behavior": {
+			"type": "script",
+			"path": "script/behaviors/stair_behavior.js",
+			"global": true
+		},
+		"train_behavior": {
+			"type": "script",
+			"path": "script/behaviors/train_behavior.js",
 			"global": true
 		}
 	},

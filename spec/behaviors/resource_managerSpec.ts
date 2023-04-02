@@ -9,6 +9,8 @@ class Simple3D extends ThreeDimensionalView {
   }) {
     super({
       ...opts,
+      baseWidth: 100,
+      baseHeight: 100,
       logicalX: 0,
       logicalY: 0,
       logicalZ: 0
@@ -36,7 +38,7 @@ describe('resource_manager', () => {
       projectionManager: inst.getPlatformResources()
     })
     inst.addResourceOnPlatform(child)
-    expect(inst.getPlatformResources().getSubjects()).toHaveLength(2)
+    expect(inst.getPlatformResources().getSubjects()).toHaveLength(1)
     expect(inst.getPlatformResources().getSubjects()[0]).toEqual(child)
   })
   it('angle', () => {

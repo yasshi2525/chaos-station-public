@@ -40,7 +40,9 @@ describe('projectionManager', () => {
       projectionManager: inst,
       logicalX: 0,
       logicalY: 0,
-      logicalZ: 0
+      logicalZ: 0,
+      baseWidth: 100,
+      baseHeight: 100
     })
     inst.add(top)
     expect(inst.getSubjects()).toEqual([top])
@@ -51,7 +53,9 @@ describe('projectionManager', () => {
       projectionManager: inst,
       logicalX: 0,
       logicalY: 1,
-      logicalZ: 0
+      logicalZ: 0,
+      baseWidth: 100,
+      baseHeight: 100
     })
     inst.add(bottom)
     expect(inst.getSubjects()).toEqual([top, bottom])
@@ -62,7 +66,9 @@ describe('projectionManager', () => {
       projectionManager: inst,
       logicalX: 0,
       logicalY: 0.5,
-      logicalZ: 0
+      logicalZ: 0,
+      baseWidth: 100,
+      baseHeight: 100
     })
     inst.add(center)
     expect(inst.getSubjects()).toEqual([top, center, bottom])
@@ -76,7 +82,9 @@ describe('projectionManager', () => {
       projectionManager: inst,
       logicalX: 0,
       logicalY,
-      logicalZ: 0
+      logicalZ: 0,
+      baseWidth: 100,
+      baseHeight: 100
     }))
     list.forEach(s => inst.add(s))
     expect(inst.getSubjects()).toEqual(list)
@@ -178,7 +186,9 @@ describe('projectionManager', () => {
       projectionManager: inst,
       logicalX: 0,
       logicalY: 0,
-      logicalZ: 0
+      logicalZ: 0,
+      baseWidth: 100,
+      baseHeight: 100
     }))
 
     let count = 0
