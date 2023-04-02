@@ -3,6 +3,8 @@ import { ThreeDimensionalView } from '../views/3d_view'
 import { PlatformView } from '../views/platform_view'
 import { StairView } from '../views/stair_view'
 import { PassengerManager } from './passenger_manager'
+import { TrainView } from '../views/train_view'
+import { TrainManager } from './train_manager'
 
 type ResourceManagerOption = {
   scene: g.Scene,
@@ -17,6 +19,7 @@ export class ResourceManager {
   private readonly groundResources: ProjectionManager
   private readonly platformResources: ProjectionManager
   private readonly passengerResources: PassengerManager
+  private readonly trainResources: TrainManager
   private readonly tooltipLayer: g.E
   private _angle: number
 
@@ -61,10 +64,15 @@ export class ResourceManager {
       scene: this.scene,
       resourceManager: this
     })
+    this.trainResources = new TrainManager({
+      scene: this.scene,
+      resourceManager: this
+    })
+
     this.platform = new PlatformView({
       scene: this.scene,
-      width: this.groundLayer.width,
-      height: this.groundLayer.height,
+      baseWidth: this.groundLayer.width,
+      baseHeight: this.groundLayer.height,
       projectionManager: this.groundResources,
       logicalX: 0.5,
       logicalY: 0.5,
@@ -75,7 +83,7 @@ export class ResourceManager {
       scene: this.scene,
       projectionManager: this.platformResources,
       logicalX: 0.75,
-      logicalY: 0.25,
+      logicalY: 0.35,
       logicalZ: 0
     }))
   }
@@ -103,6 +111,11 @@ export class ResourceManager {
     this.addResourceOnPlatform(view)
   }
 
+  addTrain (train: TrainView) {
+    this.trainResources.add(train)
+    this.addResourceOnGround(train)
+  }
+
   getGroundResources () {
     return this.groundResources
   }
@@ -113,6 +126,10 @@ export class ResourceManager {
 
   getPassengerResources () {
     return this.passengerResources
+  }
+
+  getTrainResources () {
+    return this.trainResources
   }
 
   getPlatform () {

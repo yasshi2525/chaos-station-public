@@ -5,7 +5,7 @@ type StairViewOption = ThreeDimensionalViewOption
 
 const width = 150
 const height = 100
-const logicalLength = 0.25 // 高さ
+const logicalLength = 0.1 // 高さ
 
 export class StairView extends ThreeDimensionalView {
   private readonly icon: g.E

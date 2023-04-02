@@ -20,7 +20,10 @@ module.exports = {
             mode: 'ranking',
             totalTimeLimit: 40,
             randomSeed: new Date().getTime(),
-            debug: false
+            debug: {
+              rotate: false,
+              grid: false
+            }
           }
         }
       ]

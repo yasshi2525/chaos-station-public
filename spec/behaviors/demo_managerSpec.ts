@@ -14,12 +14,14 @@ describe('demo_manager', () => {
     projectionManager = resourceManager.getPlatformResources()
   })
 
-  it('start', () => {
+  it.each([false, true])('run', async (grid) => {
     const inst = new DemoManager({
       scene,
       resourceManager,
-      projectionManager
+      projectionManager,
+      grid
     })
     expect(() => inst.start()).not.toThrow()
+    await context.advance(5000)
   })
 })

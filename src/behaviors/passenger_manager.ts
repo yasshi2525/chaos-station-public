@@ -47,7 +47,7 @@ export class PassengerManager {
 
   start () {
     const platform = this.resourceManager.getPlatform()
-    const xLen = platform.width / PassengerView.width
+    const xLen = platform.baseWidth / PassengerView.width
     for (let x = 0; x < xLen; x++) {
       const offset = {
         logicalX: x / xLen * this.projectionManager.size.logicalX,
@@ -64,7 +64,7 @@ export class PassengerManager {
     this.scene.setInterval(() => {
       this.spawners.forEach(src => {
         const logicalX = src.logicalOffset.logicalX + src.logicalSize.logicalX * (g.game.random.generate() - 0.5)
-        const logicalY = src.logicalOffset.logicalY + (g.game.random.generate() - 0.5) * src.logicalSize.logicalY // + src.logicalSize.logicalY * (g.game.random.generate() - 0.5)
+        const logicalY = src.logicalOffset.logicalY + (g.game.random.generate() - 0.5) * src.logicalSize.logicalY
         const logicalZ = src.getLogicalZat(logicalX)
         this.addSubject(new PassengerView({
           scene: this.scene,
@@ -87,7 +87,6 @@ export class PassengerManager {
             logicalY: s.logicalOffset.logicalY,
             logicalZ: stair.getLogicalZat(s.logicalOffset.logicalX - 0.001)
           }
-          s.modified()
         })
         subjects.filter(s => !stair.contains(s.logicalOffset))
           .forEach(s => {
@@ -102,7 +101,6 @@ export class PassengerManager {
         if (this.rideQueue.find(q => q.queue.includes(s))) {
           return
         }
-
         const goal = this.rideQueue
           .filter(q => q.enabled)
           .reduce((prev, current) => {
@@ -185,7 +183,6 @@ export class PassengerManager {
           logicalY: s.logicalOffset.logicalY + 0.01 * Math.sin(theta),
           logicalZ: 0
         }
-        s.modified()
       })
     })
   }

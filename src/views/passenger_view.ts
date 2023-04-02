@@ -31,6 +31,7 @@ export class PassengerView extends ThreeDimensionalView {
     this.onRotated.add(angle => {
       this.icon.height = Math.sin(angle) * height
       this.icon.children![0].height = Math.sin(angle) * height
+      this.icon.children![0].modified()
       this.icon.modified()
     })
   }

@@ -98,6 +98,16 @@
 			"type": "script",
 			"path": "script/views/passenger_view.js",
 			"global": true
+		},
+		"train_manager": {
+			"type": "script",
+			"path": "script/behaviors/train_manager.js",
+			"global": true
+		},
+		"train_view": {
+			"type": "script",
+			"path": "script/views/train_view.js",
+			"global": true
 		}
 	},
 	"moduleMainScripts": {},
